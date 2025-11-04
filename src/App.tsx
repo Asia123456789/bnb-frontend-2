@@ -20,6 +20,7 @@ function App() {
       <nav>
         <Link to="/">Properties</Link> | 
         <Link to="/login">Login</Link> | 
+        <Link to="/my-bookings">My Bookings</Link> |
         <button onClick={handleLogout}>Logout</button>
       </nav>
       <hr />

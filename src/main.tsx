@@ -5,6 +5,7 @@ import App from './App';
 import Login from './pages/Login.tsx';
 import PropertiesList from './pages/PropertiesList.tsx';
 import PropertyDetail from './pages/PropertyDetail.tsx';
+import MyBookings from './pages/MyBookings.tsx';
 import './index.css';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
@@ -15,6 +16,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
           <Route index element={<PropertiesList />} />
           <Route path="login" element={<Login />} />
           <Route path="property/:id" element={<PropertyDetail />} />
+          <Route path="my-bookings" element={<MyBookings />} />
         </Route>
       </Routes>
     </BrowserRouter>
