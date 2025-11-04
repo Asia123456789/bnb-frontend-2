@@ -1,13 +1,16 @@
 // src/App.tsx
-import React from "react";
+import { Outlet, Link } from 'react-router-dom';
 
-const App: React.FC = () => {
+function App() {
   return (
     <div>
-      <h1>Welcome to Bnb Frontend!</h1>
-      <p>Your React + TypeScript frontend is ready.</p>
+      <nav>
+        <Link to="/">Properties</Link> | <Link to="/login">Login</Link>
+      </nav>
+      <hr />
+      <Outlet />
     </div>
   );
-};
+}
 
 export default App;
