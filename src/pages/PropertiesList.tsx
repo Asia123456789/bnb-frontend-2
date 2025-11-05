@@ -1,3 +1,4 @@
+// src/pages/PropertiesList.tsx
 import { useEffect, useState } from 'react';
 import { getProperties } from '../api/api';
 import { Link } from 'react-router-dom';

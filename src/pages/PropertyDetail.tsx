@@ -1,3 +1,4 @@
+// src/pages/PropertyDetail.tsx
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { getPropertyById, bookProperty } from '../api/api';
