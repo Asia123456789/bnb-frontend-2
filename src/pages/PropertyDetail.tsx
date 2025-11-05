@@ -38,7 +38,7 @@ function PropertyDetail() {
 
     try {
       await bookProperty(property.id, checkIn, checkOut);
-      setMessage('Booking successful!');
+      setMessage(`Booking successful! You booked from ${checkIn} to ${checkOut}.`);
     } catch (err: any) {
       console.error('Booking error', err);
       setMessage(err.response?.data?.error || 'Booking failed');
