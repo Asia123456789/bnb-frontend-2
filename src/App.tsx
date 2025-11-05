@@ -33,15 +33,27 @@ function App() {
         <Link to="/">Properties</Link> | 
         <Link to="/my-bookings">My Bookings</Link> | 
         {!user && <Link to="/login">Login</Link>}
+
         {user && (
           <>
-            {/* Visar användarens namn och markerar admin med ⭐ */}
+            {/* ---------------- NYTT / ÄNDRAT ---------------- */}
+            {/* Visa användarens namn och admin-flagga */}
             <span style={{ marginLeft: 10 }}>
               👋 {user.full_name || user.email}
               {user.is_admin && (
                 <span style={{ color: "gold", marginLeft: 5 }}>⭐ Admin</span>
               )}
             </span>
+
+            {/* ---------------- NYTT: ADMIN-KNAPP ---------------- */}
+            {/* Endast synlig för admin */}
+            {user.is_admin && (
+              <>
+                <Link to="/admin" style={{ marginLeft: 10 }}>Hantera Properties</Link>
+              </>
+            )}
+            {/* ------------------------------------------------ */}
+
             <button onClick={handleLogout} style={{ marginLeft: 10 }}>Logout</button>
           </>
         )}
@@ -49,7 +61,6 @@ function App() {
 
       <hr />
 
-      {/* Här kan du ha kvar eventuell text om inloggad/inte inloggad */}
       {!user && <p>Inte inloggad</p>}
 
       <Outlet />
