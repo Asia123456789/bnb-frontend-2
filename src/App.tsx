@@ -35,7 +35,13 @@ function App() {
         {!user && <Link to="/login">Login</Link>}
         {user && (
           <>
-            <span style={{ marginLeft: 10 }}>👋 {user.full_name || user.email}</span>
+            {/* Visar användarens namn och markerar admin med ⭐ */}
+            <span style={{ marginLeft: 10 }}>
+              👋 {user.full_name || user.email}
+              {user.is_admin && (
+                <span style={{ color: "gold", marginLeft: 5 }}>⭐ Admin</span>
+              )}
+            </span>
             <button onClick={handleLogout} style={{ marginLeft: 10 }}>Logout</button>
           </>
         )}
