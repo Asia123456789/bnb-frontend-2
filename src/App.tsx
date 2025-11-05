@@ -1,3 +1,4 @@
+// src/App.tsx
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Outlet, Link, useNavigate } from "react-router-dom";
@@ -8,12 +9,14 @@ function App() {
   const [user, setUser] = useState<any>(null);
   const navigate = useNavigate();
 
+  // Hämtar info om inloggad användare
   useEffect(() => {
     axios.get(`${API_URL}/auth/me`, { withCredentials: true })
       .then(res => setUser(res.data))
       .catch(() => setUser(null));
   }, []);
 
+  // Logout
   const handleLogout = async () => {
     try {
       await axios.post(`${API_URL}/auth/logout`, {}, { withCredentials: true });
@@ -28,14 +31,21 @@ function App() {
     <div>
       <nav>
         <Link to="/">Properties</Link> | 
-        <Link to="/login">Login</Link> | 
-        <Link to="/my-bookings">My Bookings</Link> |
-        <button onClick={handleLogout}>Logout</button>
+        <Link to="/my-bookings">My Bookings</Link> | 
+        {!user && <Link to="/login">Login</Link>}
+        {user && (
+          <>
+            <span style={{ marginLeft: 10 }}>👋 {user.full_name || user.email}</span>
+            <button onClick={handleLogout} style={{ marginLeft: 10 }}>Logout</button>
+          </>
+        )}
       </nav>
+
       <hr />
-      {user ? ( <p>Inloggad som: {user.full_name || user.email}</p> 
-      ) : ( <p>Inte inloggad</p>
-      )}
+
+      {/* Här kan du ha kvar eventuell text om inloggad/inte inloggad */}
+      {!user && <p>Inte inloggad</p>}
+
       <Outlet />
     </div>
   );
