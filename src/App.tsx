@@ -1,14 +1,23 @@
-import { Outlet, Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { Outlet, Link, useNavigate } from "react-router-dom";
 
-const API_URL = 'http://localhost:3000';
+const API_URL = "http://localhost:3000";
 
 function App() {
+  const [user, setUser] = useState<any>(null);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    axios.get(`${API_URL}/auth/me`, { withCredentials: true })
+      .then(res => setUser(res.data))
+      .catch(() => setUser(null));
+  }, []);
 
   const handleLogout = async () => {
     try {
       await axios.post(`${API_URL}/auth/logout`, {}, { withCredentials: true });
+      setUser(null);
       navigate('/login');
     } catch (err) {
       console.error('Logout failed', err);
@@ -24,6 +33,9 @@ function App() {
         <button onClick={handleLogout}>Logout</button>
       </nav>
       <hr />
+      {user ? ( <p>Inloggad som: {user.full_name || user.email}</p> 
+      ) : ( <p>Inte inloggad</p>
+      )}
       <Outlet />
     </div>
   );

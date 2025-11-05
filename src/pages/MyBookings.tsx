@@ -11,14 +11,42 @@ interface Booking {
   total_price: number;
 }
 
+interface Property {
+  id: string;
+  title: string;
+  description: string;
+  location: string;
+  price_per_night: number;
+}
+
+interface BookingWithProperty extends Booking {
+  property?: Property;
+}
+
 function MyBookings() {
-  const [bookings, setBookings] = useState<Booking[]>([]);
+  const [bookings, setBookings] = useState<BookingWithProperty[]>([]);
   const [error, setError] = useState("");
 
   useEffect(() => {
-    axios
-      .get(`${API_URL}/bookings`, { withCredentials: true })
-      .then(res => setBookings(res.data))
+    // Hämta alla bokningar
+    axios.get<Booking[]>(`${API_URL}/bookings`, { withCredentials: true })
+      .then(async res => {
+        const bookingsData = res.data;
+
+        // Hämta property detaljer för varje bokning
+        const bookingsWithProperty = await Promise.all(
+          bookingsData.map(async (b) => {
+            try {
+              const propertyRes = await axios.get<Property>(`${API_URL}/properties/${b.property_id}`);
+              return { ...b, property: propertyRes.data };
+            } catch (err) {
+              return { ...b }; // fallback if property fetch fails
+            }
+          })
+        );
+
+        setBookings(bookingsWithProperty);
+      })
       .catch(err => setError(err.response?.data?.error || "Failed to fetch bookings"));
   }, []);
 
@@ -32,7 +60,7 @@ function MyBookings() {
       ) : (
         bookings.map(b => (
           <div key={b.id} style={{ border: "1px solid gray", margin: 5, padding: 5 }}>
-            <p>Property ID: {b.property_id}</p>
+            <p><b>Property:</b> {b.property ? b.property.title : b.property_id}</p>
             <p>Check-in: {b.check_in}</p>
             <p>Check-out: {b.check_out}</p>
             <p>Total price: ${b.total_price}</p>
@@ -44,3 +72,4 @@ function MyBookings() {
 }
 
 export default MyBookings;
+
