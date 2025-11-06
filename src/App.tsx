@@ -9,14 +9,12 @@ function App() {
   const [user, setUser] = useState<any>(null);
   const navigate = useNavigate();
 
-  // Hämtar info om inloggad användare
   useEffect(() => {
     axios.get(`${API_URL}/auth/me`, { withCredentials: true })
       .then(res => setUser(res.data))
       .catch(() => setUser(null));
   }, []);
 
-  // Logout
   const handleLogout = async () => {
     try {
       await axios.post(`${API_URL}/auth/logout`, {}, { withCredentials: true });
@@ -36,29 +34,13 @@ function App() {
 
         {user && (
           <>
-            {/* ---------------- NYTT / ÄNDRAT ---------------- */}
-            {/* Visa användarens namn och admin-flagga */}
             <span style={{ marginLeft: 10 }}>
               👋 {user.full_name || user.email}
-              {user.is_admin && (
-                <span style={{ color: "gold", marginLeft: 5 }}>⭐ Admin</span>
-              )}
+              {user.is_admin && <span style={{ color: "gold", marginLeft: 5 }}>⭐ Admin</span>}
             </span>
 
-            {/* ---------------- NYTT: ADMIN-KNAPP ---------------- */}
-            {/* Endast synlig för admin */}
-            {user.is_admin && (
-              <>
-                <Link to="/admin" style={{ marginLeft: 10 }}>Hantera Properties</Link>
-              </>
-            )}
-            {/* ------------------------------------------------ */}
-            {/* ---------------- NYTT: MINA PROPERTIES FÖR VANLIGA ANVÄNDARE ---------------- */}
-            {/* Alla inloggade som inte är admin får länk till sina egna properties */}
-            {!user.is_admin && (
-              <Link to="/my-properties" style={{ marginLeft: 10 }}>Mina Properties</Link>
-            )}
-            {/* --------------------------------------------------------------------------- */}
+            {user.is_admin && <Link to="/admin" style={{ marginLeft: 10 }}>Hantera Properties</Link>}
+            {!user.is_admin && <Link to="/my-properties" style={{ marginLeft: 10 }}>Mina Properties</Link>}
 
             <button onClick={handleLogout} style={{ marginLeft: 10 }}>Logout</button>
           </>
@@ -66,7 +48,6 @@ function App() {
       </nav>
 
       <hr />
-
       {!user && <p>Inte inloggad</p>}
 
       <Outlet />
