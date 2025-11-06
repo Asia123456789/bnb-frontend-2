@@ -53,6 +53,12 @@ function App() {
               </>
             )}
             {/* ------------------------------------------------ */}
+            {/* ---------------- NYTT: MINA PROPERTIES FÖR VANLIGA ANVÄNDARE ---------------- */}
+            {/* Alla inloggade som inte är admin får länk till sina egna properties */}
+            {!user.is_admin && (
+              <Link to="/my-properties" style={{ marginLeft: 10 }}>Mina Properties</Link>
+            )}
+            {/* --------------------------------------------------------------------------- */}
 
             <button onClick={handleLogout} style={{ marginLeft: 10 }}>Logout</button>
           </>

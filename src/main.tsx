@@ -9,6 +9,7 @@ import PropertyDetail from './pages/PropertyDetail.tsx';
 import MyBookings from './pages/MyBookings.tsx';
 import './index.css';
 import Admin from './pages/Admin.tsx';
+import MyProperties from './pages/MyProperties.tsx';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
@@ -20,6 +21,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
           <Route path="property/:id" element={<PropertyDetail />} />
           <Route path="my-bookings" element={<MyBookings />} />
           <Route path="admin" element={<Admin />} />
+          <Route path="my-properties" element={<MyProperties />} />
         </Route>
       </Routes>
     </BrowserRouter>
